@@ -1,3 +1,6 @@
+Bash_scripting Cheatsheet==================https://devhints.io/bash
+
+
 # Shell_scripting
 ============================================
 echo "enter your name"
@@ -147,4 +150,25 @@ fi
 Pass some meaningful value
 #./<file_name> hi
 Thank you
+============================================
+for HOST in host1 host2 host3; do 
+echo $HOST
+done 
+
+**Output:**
+host1
+host2
+host3
+============================================
+#! /bin/bash
+for HOST in host{1..20}; do
+echo $HOST
+done
+
+**Output:**
+host 1
+host 2
+.
+.
+host 20
 ============================================
