@@ -1,5 +1,6 @@
 Bash_scripting Cheatsheet==================https://devhints.io/bash
 https://dheeraj3choudhary.com/linux-for-devops-or-shell-script-for-operators-decision-making-statements
+https://github.com/jidibinlin/Free-DevOps-Books-1/blob/master/book/Linux%20Shell%20Scripting%20Essentials.pdf
 
 # Shell_scripting
 ============================================
