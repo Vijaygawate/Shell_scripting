@@ -1,5 +1,5 @@
 Bash_scripting Cheatsheet==================https://devhints.io/bash
-
+https://dheeraj3choudhary.com/linux-for-devops-or-shell-script-for-operators-decision-making-statements
 
 # Shell_scripting
 ============================================
@@ -171,4 +171,12 @@ host 2
 .
 .
 host 20
+============================================
+#!/bin/bash
+for file in 'ls /Downloads' ; do
+echo $file
+done
+
+**Output:**
+It will list the files in downloads folder 
 ============================================
