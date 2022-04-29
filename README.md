@@ -386,3 +386,124 @@ fi
 10 -lt 100 -o 20 -gt 100 : returns true
 10 -lt 5 -o 20 -gt 100 : returns false
 ============================================
+Automated Backup 
+
+#!/bin/bash
+####################################
+#
+# Backup to NFS mount script.
+#
+####################################
+
+# What to backup. 
+backup_files="/home /var/spool/mail /etc /root /boot /opt"
+
+# Where to backup to.
+dest="/mnt/backup"
+
+# Create archive filename.
+day=$(date +%A)
+hostname=$(hostname -s)
+archive_file="$hostname-$day.tgz"
+
+# Print start status message.
+echo "Backing up $backup_files to $dest/$archive_file"
+date
+echo
+
+# Backup the files using tar.
+tar czf $dest/$archive_file $backup_files
+
+# Print end status message.
+echo
+echo "Backup finished"
+date
+
+# Long listing of files in $dest to check file sizes.
+ls -lh $dest
+============================================
+**Automates DB backup **
+#!/bin/sh
+ 
+DBNAME=database-name
+DATE=`date +"%Y%m%d"`
+SQLFILE=$DBNAME-${DATE}.sql
+mysqldump --opt --user=root --password $DBNAME > $SQLBACKUP
+gzip $SQLBACKUP
+============================================
+**Bash Script For MySQL Database Backup From Another Server**
+#!/bin/sh
+ 
+FILE=backup.sql.`date +"%Y%m%d"`
+DBSERVER=127.0.0.1
+DATABASE=database-name
+USER=user-name
+PASS=your-password
+ 
+unalias rm     2> /dev/null
+rm ${FILE}     2> /dev/null
+rm ${FILE}.gz  2> /dev/null
+ 
+mysqldump --opt --protocol=TCP --user=${USER} --password=${PASS} --host=${DBSERVER} ${DATABASE} > ${FILE}
+gzip $FILE
+echo "${FILE}.gz was created:"
+ls -l ${FILE}.gz
+============================================
+#!/bin/bash
+ 
+################################################################
+##
+##   MySQL Database Backup Script 
+##   Written By: Rahul Kumar
+##   URL: https://tecadmin.net/bash-script-mysql-database-backup/
+##   Last Update: Jan 05, 2019
+##
+################################################################
+ 
+export PATH=/bin:/usr/bin:/usr/local/bin
+TODAY=`date +"%d%b%Y"`
+ 
+################################################################
+################## Update below values  ########################
+ 
+DB_BACKUP_PATH='/backup/dbbackup'
+MYSQL_HOST='localhost'
+MYSQL_PORT='3306'
+MYSQL_USER='root'
+MYSQL_PASSWORD='mysecret'
+DATABASE_NAME='mydb'
+BACKUP_RETAIN_DAYS=30   ## Number of days to keep local backup copy
+ 
+#################################################################
+ 
+mkdir -p ${DB_BACKUP_PATH}/${TODAY}
+echo "Backup started for database - ${DATABASE_NAME}"
+ 
+ 
+mysqldump -h ${MYSQL_HOST} \
+   -P ${MYSQL_PORT} \
+   -u ${MYSQL_USER} \
+   -p${MYSQL_PASSWORD} \
+   ${DATABASE_NAME} | gzip > ${DB_BACKUP_PATH}/${TODAY}/${DATABASE_NAME}-${TODAY}.sql.gz
+ 
+if [ $? -eq 0 ]; then
+  echo "Database backup successfully completed"
+else
+  echo "Error found during backup"
+  exit 1
+fi
+ 
+ 
+##### Remove backups older than {BACKUP_RETAIN_DAYS} days  #####
+ 
+DBDELDATE=`date +"%d%b%Y" --date="${BACKUP_RETAIN_DAYS} days ago"`
+ 
+if [ ! -z ${DB_BACKUP_PATH} ]; then
+      cd ${DB_BACKUP_PATH}
+      if [ ! -z ${DBDELDATE} ] && [ -d ${DBDELDATE} ]; then
+            rm -rf ${DBDELDATE}
+      fi
+fi
+ 
+### End of script ####
+============================================
